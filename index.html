@@ -16,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r105/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/panolens@0.12.1/build/panolens.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=700;900&family=Inter:wght=400;600;700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -27,13 +27,13 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Para banayad ang pagtalon kapag clinick ang navigation */
+            scroll-behavior: smooth; /* Banayad na pagbaba kapag nilikot ang menu */
         }
 
         body {
             background-color: #03030c;
             color: #ffffff;
-            overflow-y: auto; /* Pinayagan mag-scroll pababa */
+            overflow-y: auto;
             overflow-x: hidden;
         }
 
@@ -76,7 +76,7 @@
             transform: scale(1.1);
         }
 
-        /* Top Bar Menu Links Style */
+        /* Top Menu Links Style */
         .nav-item {
             font-size: 14px;
             font-weight: 700;
@@ -128,7 +128,7 @@
         }
         .section-title span { color: #00f3ff; }
 
-        /* What We Offer Grid */
+        /* What We Offer Grid Setup */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -159,7 +159,7 @@
         }
         .flat-card:hover .flat-card-btn { background: #00f3ff; color: #03030c; }
 
-        /* Computer Rates Box Setup */
+        /* Computer Rates Area */
         .rates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -171,11 +171,11 @@
         .rate-box h5 { font-size: 13px; color: #ffb703; text-transform: uppercase; }
         .price { font-size: 42px; font-weight: 700; margin: 10px 0; }
 
-        /* Why Choose Us */
+        /* Why Choose Us Area */
         .why-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
         .why-item { background: rgba(255,255,255,0.02); padding: 15px 25px; border-radius: 30px; font-size: 14px; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* Modified Branded Image Gallery Area (Tatlo na lang, pinalitan ang structure) */
+        /* Branded Image Gallery Area (Kargado ang kwarto files) */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -189,11 +189,11 @@
         .gallery-desc { padding: 20px; text-align: center; }
         .gallery-desc h4 { font-family: 'Orbitron', sans-serif; color: #00f3ff; font-size: 16px; text-transform: uppercase; }
 
-        /* Testimonials Setup */
+        /* Testimonials Box Area */
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
         .review-node { background: #09091a; border-left: 3px solid #ff2a85; padding: 25px; border-radius: 0 8px 8px 0; font-style: italic; font-size: 14px; }
 
-        /* Contact Footer Columns */
+        /* Contact Details Footer Area */
         footer { background: #020208; padding: 50px 6%; z-index: 10; position: relative; font-size: 14px; color: #a0aec0; border-top: 1px solid rgba(255, 255, 255, 0.05); }
         .footer-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; }
         .footer-cols h3 { font-family: 'Orbitron', sans-serif; color: #fff; font-size: 15px; margin-bottom: 15px; text-transform: uppercase; }
@@ -331,7 +331,7 @@
 
 
     <script>
-        // Smooth action navigation anchor runner
+        // Smooth anchor positioning trigger
         function scrollToId(targetId) {
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
@@ -342,7 +342,7 @@
         const container = document.querySelector('#panolens-canvas');
         const panorama = new PANOLENS.ImagePanorama('kwarto2.JPG');
 
-        // Pinipilit ang browser na huwag ihinto ang loading ng images kapag offline development link ang gamit
+        // Bypasses local block restrictions to allow proper testing on the browser level
         panorama.load = function ( url ) { this.loadTexture( url ); };
         PANOLENS.ImagePanorama.prototype.loadTexture = function ( url ) {
             const loader = new THREE.TextureLoader();
@@ -350,7 +350,7 @@
             loader.load( url, this.onLoad.bind(this), this.onProgress.bind(this), this.onError.bind(this) );
         };
 
-        // Injector ng 3D spaces text elements sa virtual world coordinate grid Matrix
+        // Injector mapping function for 3D overlay texts inside the virtual sphere context
         function create3DMarker(elementId, x, y, z) {
             const htmlNode = document.getElementById(elementId);
             const marker = new PANOLENS.Infospot(1, PANOLENS.DataImage.Empty);
@@ -361,8 +361,8 @@
             panorama.add(marker);
         }
 
-        // --- MATRIC COORDINATES NG MGA LUMULUTANG NA TEXTS ---
-        // Header Main Nav Links (Y = 1400)
+        // --- COORDINATES MATRIX FOR THE FLOATING TEXT CODES ---
+        // Header Navbar Core Markers (Y = 1400)
         create3DMarker('go-home',       -1050, 1400, -3000);
         create3DMarker('go-services',   -550,  1400, -3000);
         create3DMarker('go-rates',      -50,   1400, -3000);
@@ -371,17 +371,17 @@
         create3DMarker('go-activities', 1500,  1400, -3000);
         create3DMarker('go-contact',    2050,  1400, -3000);
 
-        // Feature Service Info Cards (Y = 150)
+        // Feature Service Content Cards (Y = 150)
         create3DMarker('card-comp',  -3000, 150, -2500);
         create3DMarker('card-print', -1000, 150, -2500);
         create3DMarker('card-stud',   1000, 150, -2500);
         create3DMarker('card-game',   3000, 150, -2500);
 
-        // Call To Actions Bottom Elements (Y = -750)
+        // Lower Call-To-Action Element Buttons (Y = -750)
         create3DMarker('btn-book',   -600, -750, -2500);
         create3DMarker('btn-rates',   600, -750, -2500);
 
-        // Run the master 360 control engine instance
+        // Starts the 360 controller engine instances
         const viewer = new PANOLENS.Viewer({
             container: container,
             autoHideInfospot: false
