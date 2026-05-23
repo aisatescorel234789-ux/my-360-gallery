@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>JOLLIBABES - Premium Cybercafe, Printing & Study Hub</title>
+    <meta name="description" content="JOLLIBABES is your premium all-in-one cybercafe, high-speed printing factory, and quiet study zone. Experience elite gaming and focus spaces.">
+    <meta name="keywords" content="JOLLIBABES, Jollibabes comshop, Jollibabes printing, study hub, cybercafe, gaming zone, computer rates">
+    <meta name="author" content="JOLLIBABES Hub">
+
+    <meta property="og:title" content="JOLLIBABES - Cybercafe & Study Hub">
+    <meta property="og:description" content="Game, Study, Create, Print. All in one interactive 360 space.">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r105/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/panolens@0.12.1/build/panolens.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Para banayad ang pagtalon kapag clinick ang navigation */
+        }
+
+        body {
+            background-color: #03030c;
+            color: #ffffff;
+            overflow-y: auto; /* Pinayagan mag-scroll pababa */
+            overflow-x: hidden;
+        }
+
+        /* --- 1. HERO 360 VIEW SECTION --- */
+        .hero-360-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        #panolens-canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .canvas-tint {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 3, 12, 0.45);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* --- 2. FLOATING NEON OBJECTS (SUMASABAY SA IKOT) --- */
+        .floating-infospot {
+            color: #ffffff;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease;
+        }
+        .floating-infospot:hover {
+            transform: scale(1.1);
+        }
+
+        /* Top Bar Menu Links Style */
+        .nav-item {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+        .nav-item:hover { color: #00f3ff; text-shadow: 0 0 12px #00f3ff; }
+
+        /* Cyberpunk Neon Glow Cards Style (Katulad sa reference sheet mo) */
+        .glow-card {
+            background: rgba(4, 4, 14, 0.85);
+            backdrop-filter: blur(6px);
+            padding: 22px 25px;
+            border-radius: 12px;
+            width: 240px;
+            text-align: center;
+        }
+        .glow-card h3 { font-family: 'Orbitron', sans-serif; font-size: 16px; text-transform: uppercase; margin-bottom: 6px; }
+        .glow-card p { font-size: 12px; color: #cbd5e1; }
+        
+        .card-cyan { border: 2px solid #00f3ff; box-shadow: 0 0 15px rgba(0, 243, 255, 0.3); } .card-cyan h3 { color: #00f3ff; }
+        .card-pink { border: 2px solid #ff2a85; box-shadow: 0 0 15px rgba(255, 42, 133, 0.3); } .card-pink h3 { color: #ff2a85; }
+        .card-yellow { border: 2px solid #ffb703; box-shadow: 0 0 15px rgba(255, 183, 3, 0.3); } .card-yellow h3 { color: #ffb703; }
+        .card-green { border: 2px solid #00ffaa; box-shadow: 0 0 15px rgba(0, 255, 170, 0.3); } .card-green h3 { color: #00ffaa; }
+
+        /* Bottom Floating Buttons Style */
+        .action-btn { font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; padding: 14px 28px; border-radius: 6px; }
+        .btn-gold { background: #ffb703; color: #03030c; box-shadow: 0 0 15px rgba(255, 183, 3, 0.4); }
+        .btn-outline { background: rgba(3, 3, 12, 0.5); color: #ffffff; border: 2px solid #ffffff; backdrop-filter: blur(4px); }
+
+        /* --- 3. SCROLLABLE LAYOUT SECTIONS (Mababang Panels) --- */
+        section {
+            position: relative;
+            z-index: 10; 
+            padding: 90px 6%;
+            background-color: #03030c;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .section-title span { color: #00f3ff; }
+
+        /* What We Offer Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .flat-card {
+            background: #09091a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+        }
+        .flat-card h4 { font-family: 'Orbitron', sans-serif; font-size: 18px; margin-bottom: 12px; text-transform: uppercase; }
+        .flat-card p { font-size: 14px; color: #cbd5e1; line-height: 1.5; margin-bottom: 20px; }
+        .flat-card-btn {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            color: #a0aec0;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .flat-card:hover .flat-card-btn { background: #00f3ff; color: #03030c; }
+
+        /* Computer Rates Box Setup */
+        .rates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .rate-box { background: #09091a; border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px 20px; text-align: center; border-radius: 8px; }
+        .rate-box h5 { font-size: 13px; color: #ffb703; text-transform: uppercase; }
+        .price { font-size: 42px; font-weight: 700; margin: 10px 0; }
+
+        /* Why Choose Us */
+        .why-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        .why-item { background: rgba(255,255,255,0.02); padding: 15px 25px; border-radius: 30px; font-size: 14px; border: 1px solid rgba(255,255,255,0.05); }
+
+        /* Modified Branded Image Gallery Area (Tatlo na lang, pinalitan ang structure) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .gallery-panel { background: #09091a; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .img-frame { width: 100%; height: 230px; background: #151525; }
+        .img-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-desc { padding: 20px; text-align: center; }
+        .gallery-desc h4 { font-family: 'Orbitron', sans-serif; color: #00f3ff; font-size: 16px; text-transform: uppercase; }
+
+        /* Testimonials Setup */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
+        .review-node { background: #09091a; border-left: 3px solid #ff2a85; padding: 25px; border-radius: 0 8px 8px 0; font-style: italic; font-size: 14px; }
+
+        /* Contact Footer Columns */
+        footer { background: #020208; padding: 50px 6%; z-index: 10; position: relative; font-size: 14px; color: #a0aec0; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .footer-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; }
+        .footer-cols h3 { font-family: 'Orbitron', sans-serif; color: #fff; font-size: 15px; margin-bottom: 15px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="hero-360-container" id="section-home">
+        <div id="panolens-canvas"></div>
+        <div class="canvas-tint"></div>
+    </div>
+
+    <div style="display: none;">
+        <div id="go-home" class="floating-infospot nav-item" onclick="scrollToId('section-home')">Home</div>
+        <div id="go-services" class="floating-infospot nav-item" onclick="scrollToId('section-services')">Services</div>
+        <div id="go-rates" class="floating-infospot nav-item" onclick="scrollToId('section-rates')">Rates</div>
+        <div id="go-gallery" class="floating-infospot nav-item" onclick="scrollToId('section-gallery')">Gallery</div>
+        <div id="go-about" class="floating-infospot nav-item" onclick="scrollToId('section-about')">About Us</div>
+        <div id="go-activities" class="floating-infospot nav-item" onclick="scrollToId('section-services')">Activities</div>
+        <div id="go-contact" class="floating-infospot nav-item" onclick="scrollToId('section-contact')">Contact</div>
+
+        <div id="card-comp" class="floating-infospot glow-card card-cyan" onclick="scrollToId('section-services')">
+            <h3>Computer</h3>
+            <p>by the hour</p>
+        </div>
+        <div id="card-print" class="floating-infospot glow-card card-pink" onclick="scrollToId('section-services')">
+            <h3>Printing</h3>
+            <p>fast and affordable</p>
+        </div>
+        <div id="card-stud" class="floating-infospot glow-card card-yellow" onclick="scrollToId('section-services')">
+            <h3>Study</h3>
+            <p>space, focus and secure</p>
+        </div>
+        <div id="card-game" class="floating-infospot glow-card card-green" onclick="scrollToId('section-services')">
+            <h3>Gaming</h3>
+            <p>play and relax</p>
+        </div>
+
+        <div id="btn-book" class="floating-infospot action-btn btn-gold" onclick="scrollToId('section-book')">Book a PC Now</div>
+        <div id="btn-rates" class="floating-infospot action-btn btn-outline" onclick="scrollToId('section-reviews')">View Rates</div>
+    </div>
+
+
+    <section id="section-services">
+        <h2 class="section-title">What We <span>Offer</span></h2>
+        <div class="services-grid">
+            <div class="flat-card">
+                <h4>Computer Use</h4>
+                <p>Use high-speed computers perfect for encoding, editing, and research tasks.</p>
+                <a href="#section-rates" class="flat-card-btn">By the hour</a>
+            </div>
+            <div class="flat-card">
+                <h4>Printing Hub</h4>
+                <p>High-quality printing, photocopying, and scanning made fast and affordable.</p>
+                <span class="flat-card-btn">Fast & Affordable</span>
+            </div>
+            <div class="flat-card">
+                <h4>Study Hub</h4>
+                <p>A quiet and secured private space designed for ultimate focus and deep learning.</p>
+                <span class="flat-card-btn">Focus & Secure</span>
+            </div>
+            <div class="flat-card">
+                <h4>Gaming Zone</h4>
+                <p>Play your competitive games smoothly on powerful gaming computers.</p>
+                <span class="flat-card-btn">Play & Relax</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-rates" style="background: #050514;">
+        <h2 class="section-title">Computer <span>Rates</span></h2>
+        <div class="rates-grid">
+            <div class="rate-box"><h5>1 Hour</h5><div class="price">₱20</div></div>
+            <div class="rate-box"><h5>2 Hours</h5><div class="price">₱35</div></div>
+            <div class="rate-box" style="border-color:#00f3ff;"><h5>3 Hours</h5><div class="price">₱50</div></div>
+            <div class="rate-box"><h5>5 Hours</h5><div class="price">₱80</div></div>
+        </div>
+    </section>
+
+    <section id="section-about">
+        <h2 class="section-title">Why <span>Choose Us?</span></h2>
+        <div class="why-flex">
+            <div class="why-item">⚡ Fast Internet</div>
+            <div class="why-item">🛡️ Secure & Safe</div>
+            <div class="why-item">🪑 Comfortable Space</div>
+            <div class="why-item">💰 Affordable Rates</div>
+        </div>
+    </section>
+
+    <section id="section-gallery" style="background: #050514;">
+        <h2 class="section-title">The Place Where <span>You Can Do It All</span></h2>
+        <div class="gallery-grid">
+            <div class="gallery-panel">
+                <div class="img-frame"><img src="kwarto1.JPG" alt="For Game"></div>
+                <div class="gallery-desc"><h4>For Game</h4></div>
+            </div>
+            <div class="gallery-panel">
+                <div class="img-frame"><img src="kwarto2.JPG" alt="Print"></div>
+                <div class="gallery-desc"><h4>Print</h4></div>
+            </div>
+            <div class="gallery-panel">
+                <div class="img-frame"><img src="kwarto3.JPG" alt="Study"></div>
+                <div class="gallery-desc"><h4>Study</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-reviews">
+        <h2 class="section-title">What Our <span>Customers Say</span></h2>
+        <div class="reviews-grid">
+            <div class="review-node">"Super bilis ng internet at napakatahimik mag-review dito!"<br><br><b>- Kyle D.</b></div>
+            <div class="review-node">"Affordable na ang printing, napakabait pa ng mga staff."<br><br><b>- Aira M.</b></div>
+        </div>
+    </section>
+
+    <section id="section-book" style="text-align: center;">
+        <h2 class="section-title">Ready to <span>Succeed?</span></h2>
+        <a href="https://m.me/yourFBpage" target="_blank" class="btn-gold" style="text-decoration:none; display:inline-block;">Book a PC Now</a>
+    </section>
+
+    <footer id="section-contact">
+        <div class="footer-cols">
+            <div>
+                <h3>JOLLIBABES HUB</h3>
+                <p>Your premium and affordable hub for all your gaming, high-quality production printing, and silent study needs.</p>
+            </div>
+            <div>
+                <h3>Contact Us</h3>
+                <p>📞 0912 345 6789</p>
+                <p>✉️ comshop@email.com</p>
+                <p>📍 123 Comshop St., Philippines</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Smooth action navigation anchor runner
+        function scrollToId(targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        const container = document.querySelector('#panolens-canvas');
+        const panorama = new PANOLENS.ImagePanorama('kwarto2.JPG');
+
+        // Pinipilit ang browser na huwag ihinto ang loading ng images kapag offline development link ang gamit
+        panorama.load = function ( url ) { this.loadTexture( url ); };
+        PANOLENS.ImagePanorama.prototype.loadTexture = function ( url ) {
+            const loader = new THREE.TextureLoader();
+            loader.setCrossOrigin('anonymous');
+            loader.load( url, this.onLoad.bind(this), this.onProgress.bind(this), this.onError.bind(this) );
+        };
+
+        // Injector ng 3D spaces text elements sa virtual world coordinate grid Matrix
+        function create3DMarker(elementId, x, y, z) {
+            const htmlNode = document.getElementById(elementId);
+            const marker = new PANOLENS.Infospot(1, PANOLENS.DataImage.Empty);
+            
+            marker.position.set(x, y, z);
+            marker.addHoverElement(htmlNode, 0);
+            
+            panorama.add(marker);
+        }
+
+        // --- MATRIC COORDINATES NG MGA LUMULUTANG NA TEXTS ---
+        // Header Main Nav Links (Y = 1400)
+        create3DMarker('go-home',       -1050, 1400, -3000);
+        create3DMarker('go-services',   -550,  1400, -3000);
+        create3DMarker('go-rates',      -50,   1400, -3000);
+        create3DMarker('go-gallery',    450,   1400, -3000);
+        create3DMarker('go-about',      950,   1400, -3000);
+        create3DMarker('go-activities', 1500,  1400, -3000);
+        create3DMarker('go-contact',    2050,  1400, -3000);
+
+        // Feature Service Info Cards (Y = 150)
+        create3DMarker('card-comp',  -3000, 150, -2500);
+        create3DMarker('card-print', -1000, 150, -2500);
+        create3DMarker('card-stud',   1000, 150, -2500);
+        create3DMarker('card-game',   3000, 150, -2500);
+
+        // Call To Actions Bottom Elements (Y = -750)
+        create3DMarker('btn-book',   -600, -750, -2500);
+        create3DMarker('btn-rates',   600, -750, -2500);
+
+        // Run the master 360 control engine instance
+        const viewer = new PANOLENS.Viewer({
+            container: container,
+            autoHideInfospot: false
+        });
+
+        viewer.add(panorama);
+    </script>
+</body>
+</html>
