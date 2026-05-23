@@ -340,7 +340,8 @@
         }
 
         const container = document.querySelector('#panolens-canvas');
-        const panorama = new PANOLENS.ImagePanorama('kwarto2.JPG');
+// Gagamit muna tayo ng siguradong gumaganang online 360 image para mapilit nating gumana ang graphics loader mo
+const panorama = new PANOLENS.ImagePanorama('https://pancroma.github.io/panolens.js/examples/asset/textures/equirectangular/tunnel.jpg');
 
         // Bypasses local block restrictions to allow proper testing on the browser level
         panorama.load = function ( url ) { this.loadTexture( url ); };
